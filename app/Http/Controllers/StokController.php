@@ -25,9 +25,9 @@ class StokController extends Controller
         })
         ->when($status, function ($query, $status) {
             if ($status == 'aman') {
-                return $query->where('stok', '>', 5);
+                return $query->where('stok', '>', 2);
             } elseif ($status == 'menipis') {
-                return $query->where('stok', '>', 0)->where('stok', '<=', 5);
+                return $query->where('stok', '>', 0)->where('stok', '<=', 2);
             } elseif ($status == 'habis') {
                 return $query->where('stok', '<=', 0);
             }
@@ -38,8 +38,8 @@ class StokController extends Controller
 
         $totalSeluruhStok = Stok::sum('stok'); 
         $stokHabis = Stok::where('stok', '<=', 0)->count();
-        $stokMenipis = Stok::where('stok', '>', 0)->where('stok', '<=', 5)->count();
-        $stokAman = Stok::where('stok', '>', 5)->count();
+        $stokMenipis = Stok::where('stok', '>', 0)->where('stok', '<=', 2)->count();
+        $stokAman = Stok::where('stok', '>', 2)->count();
         
         return view('stok.index', compact('stoks', 'totalSeluruhStok', 'stokHabis', 'stokMenipis', 'stokAman'));
     }

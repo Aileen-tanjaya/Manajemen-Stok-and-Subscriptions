@@ -25,11 +25,10 @@
                     <div class="mb-4">
                         <label class="block mb-1 font-bold">Satuan</label>
                         <select name="satuan" class="w-full border rounded px-3 py-2" required>
-                            <option value="gram">gram</option>
+                            <option value="kg">kg</option>
                             <option value="pcs">pcs</option>
-                            <option value="ml">ml</option>
-                            <option value="pouch">pouch</option>
-                            <option value="sisir">sisir</option>
+                            <option value="liter">liter</option>
+                            <option value="bungkus">bungkus</option>
                         </select>
                     </div>
 

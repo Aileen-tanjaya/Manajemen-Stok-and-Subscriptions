@@ -49,10 +49,13 @@ class ProductController extends Controller
     /**
      * Menampilkan form edit untuk barang tertentu.
      */
+    /**
+     * Menampilkan form edit untuk barang tertentu.
+     */
     public function edit(Product $product): View
     {
         return view('products.edit', [
-            'product' => $product,
+            'product' => $product
         ]);
     }
 

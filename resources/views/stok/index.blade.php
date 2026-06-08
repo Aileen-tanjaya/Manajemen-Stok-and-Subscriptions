@@ -122,7 +122,7 @@
                                     <td class="border border-gray-200 px-4 py-4">
                                         @if($stok->stok <= 0)
                                             <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 inline-flex items-center">Habis ❌</span>
-                                        @elseif($stok->stok <= 5)
+                                        @elseif($stok->stok <= 2)
                                             <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700 inline-flex items-center">Menipis ⚠️</span>
                                         @else
                                             <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 inline-flex items-center">Aman ✅</span>

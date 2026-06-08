@@ -24,7 +24,23 @@
                     <x-nav-link :href="route('stok.index')" :active="request()->routeIs('stok.*')">
                         {{ __('Manajemen Stok') }}
                     </x-nav-link>
+
+                    <!-- Tambahan Menu Untuk Semua User -->
+                    <x-nav-link :href="route('subscriptions.plans')" :active="request()->routeIs('subscriptions.plans')">
+                        {{ __('Pilih Paket') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('subscriptions.my')" :active="request()->routeIs('subscriptions.my')">
+                        {{ __('Subscription Saya') }}
+                    </x-nav-link>
+
+                    <!-- Tambahan Menu Khusus Admin -->
+                    @if(auth()->user()->role === 'admin')
+                        <x-nav-link :href="route('admin.subscription-report')" :active="request()->routeIs('admin.subscription-report')">
+                            {{ __('Laporan Subscription') }}
+                        </x-nav-link>
+                    @endif
                 </div>
+            </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -72,12 +88,27 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+    <!-- Responsive Navigation Menu (Mobile) -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <!-- Tambahan Menu Mobile Untuk Semua User -->
+            <x-responsive-nav-link :href="route('subscriptions.plans')" :active="request()->routeIs('subscriptions.plans')">
+                {{ __('Pilih Paket') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('subscriptions.my')" :active="request()->routeIs('subscriptions.my')">
+                {{ __('Subscription Saya') }}
+            </x-responsive-nav-link>
+
+            <!-- Tambahan Menu Mobile Khusus Admin -->
+            @if(auth()->user()->role === 'admin')
+                <x-responsive-nav-link :href="route('admin.subscription-report')" :active="request()->routeIs('admin.subscription-report')">
+                    {{ __('Laporan Subscription') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -47,4 +47,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(\App\Models\Subscription::class);
+    }
+
+    public function activeSubscription()
+    {
+        return $this->hasOne(\App\Models\Subscription::class)
+            ->where('status', 'paid')
+            ->where('expired_at', '>', now())
+            ->latestOfMany();
+    }
+
+    public function isPremium()
+    {
+        return $this->activeSubscription()->exists();
+    }
 }
