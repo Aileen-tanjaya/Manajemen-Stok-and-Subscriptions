@@ -12,10 +12,17 @@ class Stok extends Model
     protected $table = 'stoks';
 
     protected $fillable = [
+        'user_id',
         'kode_barang',
         'nama_barang',
-        'satuan',
+        'stok_masuk',
+        'stok_keluar',
         'stok',
-        'harga',
+        'tanggal_update', 
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

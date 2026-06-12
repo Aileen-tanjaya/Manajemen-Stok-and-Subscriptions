@@ -12,6 +12,10 @@ use App\Http\Controllers\AdminSubscriptionReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// TAMBAHAN: Import Model User & Hash agar fitur pembuat user otomatis bisa berjalan
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,18 +31,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// DIUBAH: Logika pengalihan otomatis saat login masuk ke dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // Jika yang login rolenya admin, tampilkan halaman dashboard biasa
+    if (auth()->user()->role === 'admin') {
+        return view('dashboard');
+    }
+    
+    // Tapi jika user biasa, langsung lempar ke halaman pilih paket!
+    return redirect()->route('subscriptions.plans');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// TAMBAHAN: Rute rahasia untuk mendaftarkan user@mail.com lewat browser (100% AMAN)
+Route::get('/buat-user', function () {
+    User::updateOrCreate(
+        ['email' => 'user@mail.com'],
+        [
+            'name' => 'User Biasa',
+            'password' => Hash::make('password'),
+            'role' => 'user',
+        ]
+    );
+    return 'Akun user@mail.com berhasil didaftarkan secara aman! Silakan coba login.';
+});
+
+// KODE DIRAPIKAN: Hak akses yang bisa dibuka oleh semua user yang sudah login (Admin & User Biasa)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class)->middleware(['auth']);
-    Route::resource('stok', StokController::class);
+    // (Rute manajemen users, products, dan stok dipindahkan ke bawah agar tidak tabrakan)
 
     Route::get('/plans', [SubscriptionController::class, 'plans'])->name('subscriptions.plans');
     Route::post('/plans/{plan}/checkout', [SubscriptionController::class, 'checkout'])->name('subscriptions.checkout');
@@ -48,8 +71,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-subscriptions', [SubscriptionController::class, 'my'])->name('subscriptions.my');
 });
 
+// KODE DIRAPIKAN: Kelompok rute khusus Admin (User biasa tidak akan error membaca rute ini)
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('users', UserController::class)->except(['show']);
+    Route::resource('products', ProductController::class);
+    Route::resource('stok', StokController::class);
     Route::get('/admin/subscription-report', [AdminSubscriptionReportController::class, 'index'])->name('admin.subscription-report');
 });
 

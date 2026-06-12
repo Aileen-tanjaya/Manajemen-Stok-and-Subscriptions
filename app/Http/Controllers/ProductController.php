@@ -31,24 +31,25 @@ class ProductController extends Controller
     }
 
     /**
-     * Menyimpan barang baru ke database.
+     * Menyimpan barang baru ke database (Sudah pakai kode_barang dan satuan).
      */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'kode_barang' => ['required', 'string', 'max:50'],
             'nama_barang' => ['required', 'string', 'max:255'],
-            'stok'        => ['required', 'integer'],
+            'satuan'      => ['required', 'string', 'max:50'],
             'harga'       => ['required', 'numeric'],
         ]);
+
+        // REKAM USER: Otomatis menyimpan ID admin yang sedang menambahkan barang
+        $validated['user_id'] = auth()->id();
 
         Product::create($validated);
 
         return Redirect::route('products.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan form edit untuk barang tertentu.
-     */
     /**
      * Menampilkan form edit untuk barang tertentu.
      */
@@ -60,15 +61,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Memperbarui data barang di database.
+     * Memperbarui data barang di database (Sudah pakai kode_barang dan satuan).
      */
     public function update(Request $request, Product $product): RedirectResponse
     {
         $validated = $request->validate([
+            'kode_barang' => ['required', 'string', 'max:50'],
             'nama_barang' => ['required', 'string', 'max:255'],
-            'stok'        => ['required', 'integer'],
+            'satuan'      => ['required', 'string', 'max:50'],
             'harga'       => ['required', 'numeric'],
         ]);
+
+        // REKAM USER: Otomatis memperbarui ID admin terakhir yang mengedit barang
+        $validated['user_id'] = auth()->id();
 
         $product->update($validated);
 

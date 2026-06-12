@@ -1,15 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Models\Stok;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
 
 class StokController extends Controller
 {
@@ -53,17 +50,25 @@ class StokController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // 1. Validasi input baru sesuai form create.blade.php
         $validated = $request->validate([
             'kode_barang' => ['required', 'string', 'max:50'],
             'nama_barang' => ['required', 'string', 'max:255'],
-            'satuan'      => ['required', 'string'],
-            'stok'        => ['required', 'integer'],
-            'harga'       => ['required', 'numeric'],
+            'stok_masuk'  => ['required', 'integer', 'min:0'],
+            'stok_keluar' => ['required', 'integer', 'min:0'],
         ]);
 
+        // 2. HITUNG OTOMATIS: Stok Tersedia = Masuk - Keluar
+        $validated['stok'] = $request->stok_masuk - $request->stok_keluar;
 
+        // 3. CATAT WAKTU: Menyimpan waktu saat stok pertama kali dibuat
+        $validated['tanggal_update'] = now();
+
+        // 4. REKAM USER: Otomatis menyimpan ID admin/pengguna yang sedang login
+        $validated['user_id'] = auth()->id();
+
+        // 5. Simpan ke Database
         Stok::create($validated);
-
 
         return Redirect::route('stok.index')->with('success', 'Stok berhasil ditambahkan.');
     }
@@ -77,17 +82,25 @@ class StokController extends Controller
 
     public function update(Request $request, Stok $stok): RedirectResponse
     {
+        // 1. Validasi input baru sesuai form edit.blade.php
         $validated = $request->validate([
             'kode_barang' => ['required', 'string', 'max:50'],
             'nama_barang' => ['required', 'string', 'max:255'],
-            'satuan'      => ['required', 'string'],
-            'stok'        => ['required', 'integer'],
-            'harga'       => ['required', 'numeric'],
+            'stok_masuk'  => ['required', 'integer', 'min:0'],
+            'stok_keluar' => ['required', 'integer', 'min:0'],
         ]);
 
+        // 2. HITUNG OTOMATIS: Stok Tersedia = Masuk - Keluar
+        $validated['stok'] = $request->stok_masuk - $request->stok_keluar;
 
+        // 3. AMANKAN WAKTU EDIT: Memperbarui tanggal edit setiap kali data stok di-update
+        $validated['tanggal_update'] = now();
+
+        // 4. REKAM USER: Otomatis memperbarui ID pengguna yang terakhir melakukan edit
+        $validated['user_id'] = auth()->id();
+
+        // 5. Update data di database
         $stok->update($validated);
-
 
         return Redirect::route('stok.index')->with('success', 'Stok berhasil diupdate.');
     }
@@ -99,4 +112,3 @@ class StokController extends Controller
         return Redirect::route('stok.index')->with('success', 'Stok berhasil dihapus.');
     }
 }
-

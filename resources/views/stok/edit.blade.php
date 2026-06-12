@@ -12,35 +12,28 @@
                     @csrf
                     @method('PUT')
                     
-                    {{-- TAMBAHAN: Input Kode Barang --}}
+                    {{-- Input Kode Barang --}}
                     <div class="mb-4">
                         <label class="block mb-1 font-bold">Kode Barang</label>
                         <input type="text" name="kode_barang" value="{{ $stok->kode_barang }}" class="w-full border rounded px-3 py-2 bg-gray-50" required>
                     </div>
 
+                    {{-- Input Nama Barang --}}
                     <div class="mb-4">
                         <label class="block mb-1 font-bold">Nama Barang</label>
                         <input type="text" name="nama_barang" value="{{ $stok->nama_barang }}" class="w-full border rounded px-3 py-2" required>
                     </div>
 
+                    {{-- 1. INPUT BARU: Stok Masuk --}}
                     <div class="mb-4">
-                        <label class="block mb-1 font-bold">Satuan</label>
-                        <select name="satuan" class="w-full border rounded px-3 py-2" required>
-                            <option value="kg" {{ $stok->satuan == 'kg' ? 'selected' : '' }}>kg</option>
-                            <option value="pcs" {{ $stok->satuan == 'pcs' ? 'selected' : '' }}>pcs</option>
-                            <option value="liter" {{ $stok->satuan == 'liter' ? 'selected' : '' }}>liter</option>
-                            <option value="bungkus" {{ $stok->satuan == 'bungkus' ? 'selected' : '' }}>bungkus</option>
-                        </select>
+                        <label class="block mb-1 font-bold text-blue-600">Stok Masuk</label>
+                        <input type="number" name="stok_masuk" value="{{ $stok->stok_masuk ?? 0 }}" class="w-full border rounded px-3 py-2 focus:ring focus:ring-blue-200" required min="0">
                     </div>
 
+                    {{-- 2. INPUT BARU: Stok Keluar --}}
                     <div class="mb-4">
-                        <label class="block mb-1 font-bold">Stok</label>
-                        <input type="number" name="stok" value="{{ $stok->stok }}" class="w-full border rounded px-3 py-2" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block mb-1 font-bold">Harga</label>
-                        <input type="number" name="harga" value="{{ $stok->harga }}" class="w-full border rounded px-3 py-2" required>
+                        <label class="block mb-1 font-bold text-red-600">Stok Keluar</label>
+                        <input type="number" name="stok_keluar" value="{{ $stok->stok_keluar ?? 0 }}" class="w-full border rounded px-3 py-2 focus:ring focus:ring-red-200" required min="0">
                     </div>
 
                     <div class="flex justify-end gap-2">
