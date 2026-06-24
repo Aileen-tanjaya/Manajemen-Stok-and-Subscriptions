@@ -28,7 +28,7 @@
                                     <th class="border border-gray-200 px-4 py-2 text-left">Nama Barang</th>
                                     <th class="border border-gray-200 px-4 py-2 text-left">Satuan</th>
                                     <th class="border border-gray-200 px-4 py-2 text-left">Harga</th>
-                                    <th class="border border-gray-200 px-4 py-2 text-left">Oleh Admin</th> {{-- HEADER BARU --}}
+                                    <th class="border border-gray-200 px-4 py-2 text-left">User</th> {{-- HEADER BARU --}}
                                     <th class="border border-gray-200 px-4 py-2 text-center" style="width: 180px;">Aksi</th>
                                 </tr>
                             </thead>

@@ -84,8 +84,8 @@
                                     <th class="border border-gray-200 px-4 py-2 text-center">Stok Keluar</th>
                                     <th class="border border-gray-200 px-4 py-2 text-center">Stok Tersedia</th>
                                     <th class="border border-gray-200 px-4 py-2 text-center">Status</th>
-                                    <th class="border border-gray-200 px-4 py-2 text-center" style="width: 150px;">Terakhir Diupdate</th>
-                                    <th class="border border-gray-200 px-4 py-2 text-center">Oleh Admin</th> {{-- HEADER BARU --}}
+                                    <th class="border border-gray-200 px-4 py-2 text-center" style="width: 150px;">Tanggal Update</th>
+                                    <th class="border border-gray-200 px-4 py-2 text-center">User</th> {{-- HEADER BARU --}}
                                     <th class="border border-gray-200 px-4 py-2 text-center" style="width: 180px;">Aksi</th>
                                 </tr>
                             </thead>

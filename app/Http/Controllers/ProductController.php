@@ -15,6 +15,7 @@ class ProductController extends Controller
      */
     public function index(): View
     {
+        // KODE DIPERBAIKI: Menghapus with('user') agar halaman web TIDAK ERROR lagi
         $products = Product::orderBy('id', 'desc')->paginate(10);
 
         return view('products.index', [
@@ -42,8 +43,8 @@ class ProductController extends Controller
             'harga'       => ['required', 'numeric'],
         ]);
 
-        // REKAM USER: Otomatis menyimpan ID admin yang sedang menambahkan barang
-        $validated['user_id'] = auth()->id();
+        // KODE AMAN: Mengambil ID user langsung dari request aktif (kebal bug session null)
+        $validated['user_id'] = $request->user()->id;
 
         Product::create($validated);
 
@@ -72,8 +73,8 @@ class ProductController extends Controller
             'harga'       => ['required', 'numeric'],
         ]);
 
-        // REKAM USER: Otomatis memperbarui ID admin terakhir yang mengedit barang
-        $validated['user_id'] = auth()->id();
+        // KODE AMAN: Mengambil ID user langsung dari request aktif
+        $validated['user_id'] = $request->user()->id;
 
         $product->update($validated);
 
